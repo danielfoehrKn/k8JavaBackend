@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence xmlns="http://java.sun.com/xml/ns/persistence" version="2.0">
+
+    <persistence-unit name="default">
+        <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
+
+        <class>com.curious.daniel.entities.News</class>
+
+        <properties>
+            <property name="eclipselink.ddl-generation" value="create-tables" />
+            <property name="eclipselink.logging.level" value="WARNING" />
+            <property name="eclipselink.ddl-generation.output-mode"
+                      value="database" />
+
+            <property name="eclipselink.target-database" value="MySQL"/>
+            <property name="javax.persistence.jdbc.driver" value="com.mysql.jdbc.Driver" />
+            <!--For now, the mysql container runs on the same host-->
+            <!--<property name="javax.persistence.jdbc.url" value="jdbc:mysql://mysqlDbService:3306/curiousDb" />-->
+            <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/curiousDb" />
+            <property name="javax.persistence.jdbc.user" value="Teamplaya" />
+            <property name="javax.persistence.jdbc.password" value="Logitech" />
+
+            <!-- Enable Static Weaving for JPA Performance Improvements -->
+            <property name="eclipselink.weaving" value="static" />
+        </properties>
+    </persistence-unit>
+</persistence>
