@@ -4,7 +4,7 @@ package com.curious.daniel.entities;
 import javax.persistence.*;
 
 @Entity
-public class News {
+public class News extends BaseEntity {
     
     @Id
     @GeneratedValue
@@ -15,17 +15,6 @@ public class News {
 
     @Column(columnDefinition="VARCHAR(5000)")
     private String description;
-
-    private boolean active;
-
-    public boolean isActive() {
-        return active;
-    }
-
-    public News setActive(boolean active) {
-        this.active = active;
-        return this;
-    }
 
     public long getId() {
         return id;
