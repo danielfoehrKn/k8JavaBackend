@@ -6,9 +6,10 @@
     <!-- DB Service -->
     <!-- ============================================================== -->
 
-    <resource-ref>
-        <res-ref-name>jdbc/DefaultDB</res-ref-name>
-        <res-type>javax.sql.DataSource</res-type>
-    </resource-ref>
+    
+    <!--<resource-ref>-->
+        <!--<res-ref-name>jdbc/DefaultDB</res-ref-name>-->
+        <!--<res-type>javax.sql.DataSource</res-type>-->
+    <!--</resource-ref>-->
     
 </web-app>

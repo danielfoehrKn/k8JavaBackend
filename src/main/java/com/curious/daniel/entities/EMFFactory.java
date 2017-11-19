@@ -4,11 +4,8 @@ import org.glassfish.jersey.internal.inject.DisposableSupplier;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import javax.naming.InitialContext;
-import javax.naming.NamingException;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
-import javax.sql.DataSource;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -43,10 +40,10 @@ public class EMFFactory implements DisposableSupplier<EntityManagerFactory> {
     public static EntityManagerFactory getEntityManager(String persistenceUnit, String contextPath, Map<String, Object> properties) {
         try {
             log.debug("Lookup of EntityManagerFactory '{}' at '{}'", persistenceUnit, contextPath);
-            InitialContext ctx = new InitialContext();
-            DataSource ds = (DataSource)ctx.lookup(contextPath);
+//            InitialContext ctx = new InitialContext();
+//            DataSource ds = (DataSource)ctx.lookup(contextPath);
             properties.put("eclipselink.persistencexml", "META-INF/persistence.xml");
-            putIfAbsent(properties, "javax.persistence.nonJtaDataSource", ds);
+//            putIfAbsent(properties, "javax.persistence.nonJtaDataSource", ds);
             putIfAbsent(properties, "eclipselink.ddl-generation", "create-tables");
             putIfAbsent(properties, "eclipselink.ddl-generationoutput-mode", "database");
             putIfAbsent(properties, "eclipselink.target-database", "MySQL");
@@ -55,7 +52,7 @@ public class EMFFactory implements DisposableSupplier<EntityManagerFactory> {
             putIfAbsent(properties, "eclipselink.logging.level", "ALL");
             putIfAbsent(properties, "eclipselink.logging.logger", SLF4JSessionLog.class.getName());
             return Persistence.createEntityManagerFactory(persistenceUnit, properties);
-        } catch (RuntimeException | NamingException e) {
+        } catch (RuntimeException e) {
             log.error("Could not lookup EntityManagerFactory at '{}'", contextPath);
             return null;
         }
