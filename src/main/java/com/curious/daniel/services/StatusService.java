@@ -22,14 +22,10 @@ public class StatusService {
 
     @Context
     UriInfo context;
-    /**
-     * Method handling HTTP GET requests. The returned object will be sent
-     * to the client as "text/plain" media type.
-     *
-     * @return String that will be returned as a text/plain response.
-     */
+
     @GET
     public String getIt() {
-        return "Served at : " + context.getBaseUri();
+
+        return "Serving at external ip: " + context.getBaseUri() + "| Pod IP: " + System.getenv("MY_POD_IP") + " | POD Name: " + System.getenv("MY_POD_NAME") + " | Pod Namespace: " + System.getenv("MY_POD_NAMESPACE") + " | Node Name : " + System.getenv("MY_NODE_NAME") + " | Pod Service Account: " + System.getenv("MY_POD_SERVICE_ACCOUNT") ;
     }
 }

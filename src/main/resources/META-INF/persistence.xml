@@ -15,13 +15,9 @@
             <property name="eclipselink.target-database" value="MySQL"/>
             <property name="javax.persistence.jdbc.driver" value="com.mysql.jdbc.Driver" />
             <!--For now, the mysql container runs on the same host-->
-            <!--<property name="javax.persistence.jdbc.url" value="jdbc:mysql://mysqlDbService:3306/curiousDb" />-->
-            <property name="javax.persistence.jdbc.url" value="jdbc:mysql://35.195.176.175:3306/freshwater" />
-            <!--<property name="javax.persistence.jdbc.url" value="jdbc:mysql://192.168.99.100:3306/curiousDB?useSSL=false" />-->
-            <!--<property name="javax.persistence.jdbc.user" value="Teamplaya" />-->
-            <property name="javax.persistence.jdbc.user" value="javauser" />
+            <property name="javax.persistence.jdbc.url" value="jdbc:mysql://google/blackwater?socketFactory=com.google.cloud.sql.mysql.SocketFactory&amp;cloudSqlInstance=airy-charmer-185815:europe-west1:blackwater" />
+            <!--<property name="javax.persistence.jdbc.user" value="proxyuser" />-->
             <!--<property name="javax.persistence.jdbc.password" value="Logitech"/>-->
-            <property name="javax.persistence.jdbc.password" value="freshMellon2018"/>
 
             <!-- Enable Static Weaving for JPA Performance Improvements -->
             <property name="eclipselink.weaving" value="static" />

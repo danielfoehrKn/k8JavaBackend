@@ -51,6 +51,14 @@ public class EMFFactory implements DisposableSupplier<EntityManagerFactory> {
             putIfAbsent(properties, "eclipselink.logging.parameters", "true");
             putIfAbsent(properties, "eclipselink.logging.level", "ALL");
             putIfAbsent(properties, "eclipselink.logging.logger", SLF4JSessionLog.class.getName());
+
+            //Put username and password from environment variables from Kubernetes
+//            putIfAbsent(properties, "javax.persistence.jdbc.url", System.getProperty("DB_URL"));
+            putIfAbsent(properties, "javax.persistence.jdbc.user", System.getenv("DB_USER"));
+            putIfAbsent(properties, "javax.persistence.jdbc.user", System.getProperty("DB_USER"));
+            putIfAbsent(properties, "javax.persistence.jdbc.password",  System.getenv("DB_PASSWORD"));
+            putIfAbsent(properties, "javax.persistence.jdbc.password",  System.getProperty("DB_PASSWORD"));
+            
             return Persistence.createEntityManagerFactory(persistenceUnit, properties);
         } catch (RuntimeException e) {
             log.error("Could not lookup EntityManagerFactory at '{}'", contextPath);

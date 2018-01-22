@@ -1,0 +1,51 @@
+version: "3"
+services:
+ 
+  #java webb app    
+  webapp:
+    image: teamplaya/tomcatbitnami
+    environment:
+      - CATALINA_OPTS=-XshowSettings -XX:+UnlockExperimentalVMOptions -XX:+UseCGroupMemoryLimitForHeap -DTOMCAT_CONNECTION_PORT=9000 -DTOMCAT_PASSWORD=password -DTOMCAT_USERNAME=admin
+      - JAVA_OPTS= -DDB_URL=jdbc:mysql://35.195.176.175:3306/freshwater -DDB_User=javauser -DDB_Password=freshMellon2018
+
+    deploy:
+      replicas: 2
+      resources:
+        limits:
+          memory: 500m
+        
+      restart_policy:
+        condition: on-failure
+    ports:
+     - "9000:9000"
+ 
+    networks:
+      - backend
+      
+  visualizer:
+    image: dockersamples/visualizer:stable
+    # host volume vs named volume -> does not have to be specified
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    ports:
+      - "8080:8080"
+    deploy:
+      resources:
+        limits:
+          cpus: "0.5"
+          memory: 800m
+      placement:
+        constraints: [node.role == manager]
+    networks:
+      - backend   
+    
+networks:
+  backend: 
+  
+  
+  
+  
+   #placement:
+         #constraints: [node.role == worker]
+    
+    

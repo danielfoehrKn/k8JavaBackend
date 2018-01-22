@@ -1,0 +1,100 @@
+apiVersion: apps/v1beta1 # for versions before 1.8.0 use apps/v1beta1  - can i use apps/v1beta1
+kind: Deployment
+metadata:
+  name: backend-deployment
+spec:
+  selector:
+    matchLabels:
+      app: java_backend
+  replicas: 2 # tells deployment to run 2 pods matching the template
+  template: # create pods using pod definition in this template
+    metadata:
+      # unlike pod-nginx.yaml, the name is not included in the meta data as a unique name is
+      # generated from the deployment name
+      labels:
+        app: java_backend
+    spec:
+      containers:
+      - name: webapp
+        image: teamplaya/tomcatbitnami:latest
+        imagePullPolicy: Always
+        ports:
+        #       Tomcat is configured to start on port 9000
+        - containerPort: 9000
+#        resources:
+#          requests:
+#            memory: "300Mi"
+#            cpu: "350m"
+#          limits:
+#            memory: "400Mi"
+#            cpu: "600m"
+
+
+        env:
+#        kubectl create secret generic pod-options --from-file=catalania-opts=./catalania_secret.txt --from-file=java-opts=./java_secret.txt
+          - name: CATALINA_OPTS
+            valueFrom:
+             secretKeyRef:
+               name: pod-options
+               key: catalania-opts
+
+#          kubectl create secret generic db-secret --from-file=username=./db_username.txt --from-file=password=./db_password.txt
+          - name: DB_USER
+            valueFrom:
+             secretKeyRef:
+               name: db-secret
+               key: username
+
+          - name: DB_PASSWORD
+            valueFrom:
+             secretKeyRef:
+              name: db-secret
+              key: password
+
+#          - name: JAVA_OPTS
+##          connect to mysql db through DNS resolution of headless service with name "mysqlservice"
+##            value: "-DDB_URL=jdbc:mysql://mysqlservice:3306/freshwater -DDB_User=teamplaya -DDB_Password=Logitech"
+#            valueFrom:
+#             secretKeyRef:
+#               name: pod-options
+#               key: java-opts
+
+          - name: MY_NODE_NAME
+            valueFrom:
+              fieldRef:
+                fieldPath: spec.nodeName
+
+          - name: MY_POD_NAME
+            valueFrom:
+              fieldRef:
+                fieldPath: metadata.name
+
+          - name: MY_POD_NAMESPACE
+            valueFrom:
+              fieldRef:
+                fieldPath: metadata.namespace
+
+          - name: MY_POD_IP
+            valueFrom:
+              fieldRef:
+                fieldPath: status.podIP
+
+          - name: MY_POD_SERVICE_ACCOUNT
+            valueFrom:
+              fieldRef:
+                fieldPath: spec.serviceAccountName
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: backend-service
+  labels:
+    run: backend-service
+spec:
+  ports:
+  - port: 9000
+    protocol: TCP
+  type: LoadBalancer
+#  type: NodePort
+  selector:
+    app: java_backend
