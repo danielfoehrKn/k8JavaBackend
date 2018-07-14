@@ -23,3 +23,8 @@ hs_err_pid*
 /src/test/resources/dbuser
 
 !dummy.war
+
+java_secret.txt
+catalania_secret.txt
+db_password_secret.txt
+db_username_secret.txt

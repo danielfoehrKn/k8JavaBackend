@@ -37,7 +37,7 @@
                 <version>2.4</version>
                 <configuration>
                     <failOnMissingWebXml>false</failOnMissingWebXml>
-                    <warName>dummy</warName>
+                    <warName>echo</warName>
                 </configuration>
             </plugin>
         </plugins>
@@ -138,7 +138,7 @@
         </dependency>
 
         <!-- Connectivity to Cloud SQl-->
-
+        <!--https://github.com/GoogleCloudPlatform/cloud-sql-jdbc-socket-factory-->
         <dependency>
             <groupId>com.google.cloud.sql</groupId>
             <artifactId>mysql-socket-factory</artifactId>

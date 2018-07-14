@@ -25,7 +25,17 @@ public class StatusService {
 
     @GET
     public String getIt() {
-
-        return "Serving at external ip: " + context.getBaseUri() + "| Pod IP: " + System.getenv("MY_POD_IP") + " | POD Name: " + System.getenv("MY_POD_NAME") + " | Pod Namespace: " + System.getenv("MY_POD_NAMESPACE") + " | Node Name : " + System.getenv("MY_NODE_NAME") + " | Pod Service Account: " + System.getenv("MY_POD_SERVICE_ACCOUNT") ;
+        //CLOUDSQL_INSTANCE_CONNECTION_NAME=k8blackwater:europe-west1:blackwatersql
+        //CLOUDSQL_DATABASE_NAME=blackwaterdb
+        return "Serving at external ip: " + context.getBaseUri() +
+                "| Pod IP: " + System.getenv("MY_POD_IP")
+                + " | POD Name: " + System.getenv("MY_POD_NAME")
+                + " | Pod Namespace: " + System.getenv("MY_POD_NAMESPACE")
+                + " | Node Name : " + System.getenv("MY_NODE_NAME")
+                + " | Pod Service Account: " + System.getenv("MY_POD_SERVICE_ACCOUNT")
+                + " | CLOUDSQL_INSTANCE_CONNECTION_NAME: " + System.getenv("CLOUDSQL_INSTANCE_CONNECTION_NAME")
+                + " | CLOUDSQL_INSTANCE_CONNECTION_NAME: " + System.getenv("CLOUDSQL_INSTANCE_CONNECTION_NAME")
+                + " | DB_PASSWORD: " + System.getenv("DB_PASSWORD")
+                + " | DB_USER: " + System.getenv("DB_USER");
     }
 }

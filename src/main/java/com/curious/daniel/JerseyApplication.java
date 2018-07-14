@@ -57,7 +57,7 @@ public class JerseyApplication extends ResourceConfig {
 //                bindFactory(OkHttpClientProvider.class).to(OkHttpClient.class).in(Singleton.class);
 //                bindFactory(DestinationConfigurationSupplierProvider.class).to(DestinationConfigurationSupplier.class).in(Singleton.class);
 
-                
+
 
                 bind(NewsDAO.class).to(NewsDAO.class);
 

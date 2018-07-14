@@ -17,7 +17,7 @@ public class EMFFactory implements DisposableSupplier<EntityManagerFactory> {
     private final Map<String, Object> properties;
 
     public EMFFactory() {
-        this("default", "java:comp/env/jdbc/DefaultDB", new HashMap());
+        this("default", DEFAULT_PERSISTENCE_JNDI, new HashMap());
     }
 
     public EMFFactory(String persistenceUnit, String contextPath, Map<String, Object> properties) {
@@ -40,25 +40,19 @@ public class EMFFactory implements DisposableSupplier<EntityManagerFactory> {
     public static EntityManagerFactory getEntityManager(String persistenceUnit, String contextPath, Map<String, Object> properties) {
         try {
             log.debug("Lookup of EntityManagerFactory '{}' at '{}'", persistenceUnit, contextPath);
-//            InitialContext ctx = new InitialContext();
-//            DataSource ds = (DataSource)ctx.lookup(contextPath);
             properties.put("eclipselink.persistencexml", "META-INF/persistence.xml");
-//            putIfAbsent(properties, "javax.persistence.nonJtaDataSource", ds);
             putIfAbsent(properties, "eclipselink.ddl-generation", "create-tables");
             putIfAbsent(properties, "eclipselink.ddl-generationoutput-mode", "database");
-            putIfAbsent(properties, "eclipselink.target-database", "MySQL");
             putIfAbsent(properties, "javax.persistence.jdbc.driver", "com.mysql.jdbc.Driver");
             putIfAbsent(properties, "eclipselink.logging.parameters", "true");
             putIfAbsent(properties, "eclipselink.logging.level", "ALL");
             putIfAbsent(properties, "eclipselink.logging.logger", SLF4JSessionLog.class.getName());
 
-            //Put username and password from environment variables from Kubernetes
-//            putIfAbsent(properties, "javax.persistence.jdbc.url", System.getProperty("DB_URL"));
+            //Put username and password from environment variables
+            putIfAbsent(properties, "javax.persistence.jdbc.url", "jdbc:mysql://google/".concat(System.getenv("CLOUDSQL_DATABASE_NAME")).concat("?cloudSqlInstance=".concat(System.getenv("CLOUDSQL_INSTANCE_CONNECTION_NAME")).concat("&socketFactory=com.google.cloud.sql.mysql.SocketFactory&useSSL=false")));
             putIfAbsent(properties, "javax.persistence.jdbc.user", System.getenv("DB_USER"));
-            putIfAbsent(properties, "javax.persistence.jdbc.user", System.getProperty("DB_USER"));
             putIfAbsent(properties, "javax.persistence.jdbc.password",  System.getenv("DB_PASSWORD"));
-            putIfAbsent(properties, "javax.persistence.jdbc.password",  System.getProperty("DB_PASSWORD"));
-            
+
             return Persistence.createEntityManagerFactory(persistenceUnit, properties);
         } catch (RuntimeException e) {
             log.error("Could not lookup EntityManagerFactory at '{}'", contextPath);
@@ -71,7 +65,6 @@ public class EMFFactory implements DisposableSupplier<EntityManagerFactory> {
         if (v == null) {
             v = map.put(key, value);
         }
-
         return v;
     }
 }

@@ -20,7 +20,7 @@ spec:
         imagePullPolicy: Always
         ports:
         #       Tomcat is configured to start on port 9000
-        - containerPort: 9000
+        - containerPort: 8080
 #        resources:
 #          requests:
 #            memory: "300Mi"
@@ -31,7 +31,8 @@ spec:
 
 
         env:
-#        kubectl create secret generic pod-options --from-file=catalania-opts=./catalania_secret.txt --from-file=java-opts=./java_secret.txt
+#        kubectl create secret generic pod-options --from-file=catalania-opts=./catalania_secret.txt
+#         image is configured that Tomcat server picks up these options (e.g set connection port 9000)
           - name: CATALINA_OPTS
             valueFrom:
              secretKeyRef:
@@ -51,13 +52,12 @@ spec:
               name: db-secret
               key: password
 
-#          - name: JAVA_OPTS
-##          connect to mysql db through DNS resolution of headless service with name "mysqlservice"
-##            value: "-DDB_URL=jdbc:mysql://mysqlservice:3306/freshwater -DDB_User=teamplaya -DDB_Password=Logitech"
-#            valueFrom:
-#             secretKeyRef:
-#               name: pod-options
-#               key: java-opts
+          - name: CLOUDSQL_INSTANCE_CONNECTION_NAME
+#          #jdbc:mysql://google/<DATABASE_NAME>?cloudSqlInstance=<INSTANCE_CONNECTION_NAME>&socketFactory=com.google.cloud.sql.mysql.SocketFactory&useSSL=false&user=<MYSQL_USER_NAME>&password=<MYSQL_USER_PASSWORD>
+            value: "k8blackwater:europe-west1:blackwatersql"
+
+           - name: CLOUDSQL_DATABASE_NAME
+             value: "blackwaterdb"
 
           - name: MY_NODE_NAME
             valueFrom:

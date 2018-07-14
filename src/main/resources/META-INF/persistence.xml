@@ -14,10 +14,7 @@
 
             <property name="eclipselink.target-database" value="MySQL"/>
             <property name="javax.persistence.jdbc.driver" value="com.mysql.jdbc.Driver" />
-            <!--For now, the mysql container runs on the same host-->
-            <property name="javax.persistence.jdbc.url" value="jdbc:mysql://google/blackwater?socketFactory=com.google.cloud.sql.mysql.SocketFactory&amp;cloudSqlInstance=airy-charmer-185815:europe-west1:blackwater" />
-            <!--<property name="javax.persistence.jdbc.user" value="proxyuser" />-->
-            <!--<property name="javax.persistence.jdbc.password" value="Logitech"/>-->
+            <!-- User and PW for the CLoud SQL Instance is being added in the EMFFactory <-->
 
             <!-- Enable Static Weaving for JPA Performance Improvements -->
             <property name="eclipselink.weaving" value="static" />

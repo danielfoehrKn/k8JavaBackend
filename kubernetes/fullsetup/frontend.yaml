@@ -9,8 +9,6 @@ spec:
   replicas: 1 # tells deployment to run 2 pods matching the template
   template: # create pods using pod definition in this template
     metadata:
-      # unlike pod-nginx.yaml, the name is not included in the meta data as a unique name is
-      # generated from the deployment name
       labels:
         app: frontend
     spec:
@@ -19,9 +17,9 @@ spec:
         image: teamplaya/frontend:latest
         imagePullPolicy: Always
         ports:
-        #       Tomcat is configured to start on port 9000
         - containerPort: 8080
         env:
+      #  Tomcat is configured to start on port 9000
           - name: BACKEND_SERVICE_PORT
             value: "9000"
           - name: MY_NODE_NAME
