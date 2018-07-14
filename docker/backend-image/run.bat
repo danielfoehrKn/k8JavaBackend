@@ -1,3 +1,3 @@
-docker run -p 8080:9000 --env-file ./env.list tomcatbitnami
+docker run -p 8080:8080 --env-file ./env.list teamplaya/tomcatbitnami
 
 PAUSE
