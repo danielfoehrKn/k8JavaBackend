@@ -1,6 +1,7 @@
 package com.curious.daniel;
 
 import com.curious.daniel.dao.NewsDAO;
+import com.curious.daniel.dao.RepositoryDAO;
 import com.curious.daniel.entities.EMFFactory;
 import com.curious.daniel.entities.EMFactory;
 import com.curious.daniel.services.DBService;
@@ -60,8 +61,7 @@ public class JerseyApplication extends ResourceConfig {
 
 
                 bind(NewsDAO.class).to(NewsDAO.class);
-
-
+                bind(RepositoryDAO.class).to(RepositoryDAO.class);
 
             }
         });

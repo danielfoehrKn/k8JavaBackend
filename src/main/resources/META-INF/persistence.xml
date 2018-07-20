@@ -5,6 +5,7 @@
         <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
 
         <class>com.curious.daniel.entities.News</class>
+        <class>com.curious.daniel.entities.Repositories</class>
 
         <properties>
             <property name="eclipselink.ddl-generation" value="create-tables" />
