@@ -48,6 +48,8 @@ spec:
                 fieldPath: spec.serviceAccountName
 
 ---
+
+# TODO Replace with ingress :     LoadBalancer -----> Nginx ingress Controller ----> frontend Service & Github Bot service
  apiVersion: v1
  kind: Service
  metadata:
@@ -58,6 +60,6 @@ spec:
    ports:
    - port: 8080
      protocol: TCP
-   type: LoadBalancer
+   type: ClusterIP
    selector:
      app: frontend
