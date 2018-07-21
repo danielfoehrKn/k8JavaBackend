@@ -1,5 +1,5 @@
 #https://raw.githubusercontent.com/kubernetes/ingress-nginx/master/deploy/mandatory.yaml
-# Customize by adding 1) self-signed cert 2)letsEncrypt with kube-lego
+# Customize by adding 1) self-signed cert (NEXT: create ingress to my service https://hackernoon.com/setting-up-nginx-ingress-on-kubernetes-2b733d8d2f45 2)letsEncrypt with kube-lego (after)
 #  - also added LoadBalancer pointing to ingressController
 ---
 
@@ -243,6 +243,12 @@ spec:
         prometheus.io/scrape: 'true'
     spec:
       serviceAccountName: nginx-ingress-serviceaccount
+      volumes:
+      # Adding volume for certifacte in secret -> mounted in volumeMount
+      #      https://kubernetes.io/docs/concepts/storage/volumes/  -> secrets only live in the RAM
+      - name: tls-dhparam-vol
+        secret:
+          secretName: tls-dhparam
       containers:
         - name: nginx-ingress-controller
           image: quay.io/kubernetes-ingress-controller/nginx-ingress-controller:0.17.1
@@ -254,6 +260,8 @@ spec:
             - --udp-services-configmap=$(POD_NAMESPACE)/udp-services
             - --publish-service=$(POD_NAMESPACE)/ingress-nginx
             - --annotations-prefix=nginx.ingress.kubernetes.io
+#            TLS certificate is the name of the self-signed manually provisioned cert
+            - --default-ssl-certificate=$(POD_NAMESPACE)/tls-certificate
           securityContext:
             capabilities:
                 drop:
@@ -276,6 +284,10 @@ spec:
             containerPort: 80
           - name: https
             containerPort: 443
+          # Mount path of secret in container
+          volumeMounts:
+          - mountPath: /etc/nginx-ssl/dhparam
+            name: tls-dhparam-vol
           livenessProbe:
             failureThreshold: 3
             httpGet:

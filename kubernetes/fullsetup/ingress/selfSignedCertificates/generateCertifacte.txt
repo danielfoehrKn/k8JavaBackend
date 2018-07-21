@@ -17,9 +17,9 @@ openssl dhparam -out dhparam.pem 2048
 
 4. Create Secrets in cluster
 
-kubectl create secret tls tls-certificate --key tls-key.key --cert tls-cert.crt
+kubectl create secret tls tls-certificate --key tls-key.key --cert tls-cert.crt --namespace=ingress-nginx
 
-kubectl create secret generic tls-dhparam --from-file=dhparam.pem
+kubectl create secret generic tls-dhparam --from-file=dhparam.pem --namespace=ingress-nginx
 
 
 5. Reference secrets from Ingress Resource to instruct Ingress Controller
