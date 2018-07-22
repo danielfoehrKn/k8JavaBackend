@@ -97,6 +97,7 @@ metadata:
 
 ---
 
+# enables ingress controller to cluster wide access nodes,services,events -> to watch for ingress objects
 apiVersion: rbac.authorization.k8s.io/v1beta1
 kind: ClusterRole
 metadata:
@@ -113,6 +114,7 @@ rules:
     verbs:
       - list
       - watch
+#      - get
   - apiGroups:
       - ""
     resources:
