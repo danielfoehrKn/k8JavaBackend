@@ -2,7 +2,7 @@ apiVersion: apps/v1beta1
 kind: StatefulSet
 metadata:
  name: mongo-set
- namespace: mongospace
+# namespace: mongospace
 spec:
  serviceName: "mongo-service"
  replicas: 3
@@ -12,7 +12,8 @@ spec:
        app: mongo-set
        environment: test
    spec:
-     serviceAccountName: mongo-serviceaccount
+     serviceAccountName: default
+#     serviceAccountName: mongo-serviceaccount
      terminationGracePeriodSeconds: 10
      containers:
        - name: mongo
