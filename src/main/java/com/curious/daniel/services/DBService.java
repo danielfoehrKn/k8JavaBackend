@@ -1,5 +1,6 @@
 package com.curious.daniel.services;
 
+import com.curious.daniel.JerseyApplication;
 import com.curious.daniel.dao.NewsDAO;
 import com.curious.daniel.dao.RepositoryDAO;
 import com.curious.daniel.dto.DTOMapper;
@@ -8,6 +9,8 @@ import com.curious.daniel.dto.RepositoriesDTO;
 import com.curious.daniel.entities.News;
 import com.curious.daniel.entities.Repositories;
 import io.swagger.annotations.Api;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.inject.Inject;
 import javax.persistence.EntityNotFoundException;
@@ -22,6 +25,9 @@ import java.util.Optional;
 
 
 public class DBService {
+
+    private static final Logger log = LoggerFactory.getLogger(JerseyApplication.class);
+
 
     @Inject
     private NewsDAO dao;
@@ -84,6 +90,7 @@ public class DBService {
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     public RepositoriesDTO getRegisteredRepositoryById(@PathParam("id") String id) {
+        log.info("Searching for repository with id " + id);
         Repositories repo = repositoryDAO.find(id).orElseThrow(() -> new NotFoundException(Repositories.class.getSimpleName()));
         return DTOMapper.mapRepositories(repo);
     }
