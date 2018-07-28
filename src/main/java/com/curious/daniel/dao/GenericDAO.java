@@ -64,9 +64,9 @@ abstract public class GenericDAO<TYPE extends BaseEntity, KEY> implements DAOOpe
 
         Optional<TYPE> optional = find(id);
 
+        // Map function is only executed if optional is present
         return optional.map(entity -> {
 
-            // Map function is only executed if optional is present
             runWithTransaction(em1 -> {
                 entity.setLastModified(new Date());
                 consumer.accept(entity);
